@@ -1,5 +1,0 @@
-/mnt/j/Мои документы/IT/Github/3DViewer/cmake-build-debug/CMakeFiles/CPP4_3DViewer.dir
-/mnt/j/Мои документы/IT/Github/3DViewer/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/j/Мои документы/IT/Github/3DViewer/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/j/Мои документы/IT/Github/3DViewer/cmake-build-debug/CMakeFiles/CPP4_3DViewer_autogen_timestamp_deps.dir
-/mnt/j/Мои документы/IT/Github/3DViewer/cmake-build-debug/CMakeFiles/CPP4_3DViewer_autogen.dir
