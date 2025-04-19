@@ -111,4 +111,7 @@ QColor OpenGL::getLineColor() {
   return color;
 }
 
-void OpenGL::disable() {}
+OpenGL::~OpenGL() {
+  delete currentProgram;
+  delete glBuffers;
+}

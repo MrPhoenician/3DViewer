@@ -15,7 +15,6 @@ class OpenGL : public Singleton<OpenGL> {
 
  public:
   void init();
-  void disable();
   void setMatrix(glm::mat4 matrix);
   void uploadDataToBuffers(ObjData data);
   void draw();
@@ -30,6 +29,7 @@ class OpenGL : public Singleton<OpenGL> {
   QColor getBackgroundColor();
   QColor getPointColor();
   QColor getLineColor();
+  ~OpenGL() override;
 
  private:
   OpenGL();
@@ -42,7 +42,6 @@ class OpenGL : public Singleton<OpenGL> {
   bool stippleMode;
   float lineThikness;
   float verticesSize;
-  bool bufferStatus;
   bool isCircle;
   ShaderProgram *currentProgram;
   OpenGLBuffers *glBuffers;

@@ -69,7 +69,7 @@ MainWindow::MainWindow(Controller *contr, QWidget *parent)
 
 void MainWindow::createRightPanel() {
   // Создаем вертикальную компоновку для правой панели
-  auto *rightPanelLayout = new QVBoxLayout;
+  auto rightPanelLayout = new QVBoxLayout();
   rightPanelLayout->setAlignment(Qt::AlignTop);
   rightPanelLayout->addWidget(buttonLoad);
   rightPanelLayout->addWidget(buttonSave);
@@ -84,33 +84,33 @@ void MainWindow::createRightPanel() {
   LValueVertices->setAlignment(Qt::AlignCenter);
   LValueEdges->setAlignment(Qt::AlignCenter);
   rightPanelLayout->addWidget(LTranslation);
-  auto *sliderTXLayout = new QHBoxLayout;
+  auto sliderTXLayout = new QHBoxLayout();
   sliderTXLayout->addWidget(sliderTX);
   sliderTXLayout->addWidget(lineEditTX);
   rightPanelLayout->addLayout(sliderTXLayout);
-  auto *sliderTYLayout = new QHBoxLayout;
+  auto sliderTYLayout = new QHBoxLayout();
   sliderTYLayout->addWidget(sliderTY);
   sliderTYLayout->addWidget(lineEditTY);
   rightPanelLayout->addLayout(sliderTYLayout);
-  auto *sliderTZLayout = new QHBoxLayout;
+  auto sliderTZLayout = new QHBoxLayout();
   sliderTZLayout->addWidget(sliderTZ);
   sliderTZLayout->addWidget(lineEditTZ);
   rightPanelLayout->addLayout(sliderTZLayout);
   rightPanelLayout->addWidget(LRotation);
-  auto *sliderRXLayout = new QHBoxLayout;
+  auto sliderRXLayout = new QHBoxLayout();
   sliderRXLayout->addWidget(sliderRotX);
   sliderRXLayout->addWidget(lineEditRX);
   rightPanelLayout->addLayout(sliderRXLayout);
-  auto *sliderRYLayout = new QHBoxLayout;
+  auto sliderRYLayout = new QHBoxLayout();
   sliderRYLayout->addWidget(sliderRotY);
   sliderRYLayout->addWidget(lineEditRY);
   rightPanelLayout->addLayout(sliderRYLayout);
-  auto *sliderRZLayout = new QHBoxLayout;
+  auto sliderRZLayout = new QHBoxLayout();
   sliderRZLayout->addWidget(sliderRotZ);
   sliderRZLayout->addWidget(lineEditRZ);
   rightPanelLayout->addLayout(sliderRZLayout);
   rightPanelLayout->addWidget(LScale);
-  auto *sliderSLayout = new QHBoxLayout;
+  auto sliderSLayout = new QHBoxLayout();
   sliderSLayout->addWidget(sliderScale);
   sliderSLayout->addWidget(lineEditS);
   rightPanelLayout->addLayout(sliderSLayout);
@@ -125,14 +125,14 @@ void MainWindow::createRightPanel() {
   rightPanelLayout->addWidget(sliderVertices);
   rightPanelLayout->addWidget(projectionType);
   // Создаем контейнер для правой панели и устанавливаем фиксированную ширину
-  auto *rightPanel = new QWidget(this);
+  auto rightPanel = new QWidget();
   rightPanel->setLayout(rightPanelLayout);
   rightPanel->setFixedWidth(200);  // Фиксируем ширину правой панели
   // Создаем горизонтальную компоновку для всего окна
-  auto *mainLayout = new QHBoxLayout;
+  auto mainLayout = new QHBoxLayout();
   mainLayout->addWidget(openGLWidget);  // Добавляем OpenGL-виджет с весом 2
   mainLayout->addWidget(rightPanel);
-  auto *centralWidget = new QWidget(this);
+  auto centralWidget = new QWidget();
   centralWidget->setLayout(mainLayout);
   setCentralWidget(centralWidget);
 }
@@ -198,7 +198,7 @@ void MainWindow::setupSliderSync(QSlider *slider, QLineEdit *lineEdit, int min,
 }
 
 QLineEdit *MainWindow::createLineEdit(int charWidth) {
-  QLineEdit *lineEdit = new QLineEdit(this);
+  auto lineEdit = new QLineEdit(this);
   QFontMetrics fm(lineEdit->font());  // Получаем метрики шрифта
   int width = fm.horizontalAdvance(
       QString("0").repeated(charWidth));  // Ширина для charWidth символов
@@ -210,7 +210,7 @@ QLineEdit *MainWindow::createLineEdit(int charWidth) {
 QSlider *MainWindow::createSliderWithLineEdit(int const min, int const max,
                                               int const average,
                                               QLineEdit **lineEditPtr) {
-  auto *slider = new QSlider(Qt::Horizontal, this);
+  auto slider = new QSlider(Qt::Horizontal, this);
   slider->setRange(min, max);
   slider->setValue(average);
 
@@ -250,7 +250,7 @@ void MainWindow::setupConnections() {
   connect(buttonSave, &QPushButton::clicked, this,
           [this]() { setButtonSave(); });
   connect(sliderScale, &QSlider::valueChanged, this, [this](int value) {
-    data.setScale(value);
+    data.setScale(static_cast<float>(value));
     openGL.setMatrix(controller->signal(data));
   });
   connect(toggleStipple, &QCheckBox::stateChanged, this,
@@ -326,12 +326,12 @@ void MainWindow::setProjection(const QString &text) {
   glm::mat4 projectionMat;
   if (text == "Orthographic") {
     projectionMat = controller->signal(0, true);
-    data.setTranslate(sliderTZ->value(), 2);
+    data.setTranslate(static_cast<float>(sliderTZ->value()), 2);
     projection = 'O';
   } else if (text == "Perspective") {
-    float aspect = static_cast<float>(width()) / height();
+    float aspect = static_cast<float>(width()) / static_cast<float>(height());
     projectionMat = controller->signal(aspect, false);
-    data.setTranslate(sliderTZ->value() - 100, 2);
+    data.setTranslate(static_cast<float>(sliderTZ->value()) - 100, 2);
     projection = 'P';
   }
   openGL.setProjectionMat(projectionMat);

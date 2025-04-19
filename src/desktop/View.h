@@ -63,7 +63,7 @@ class MainWindow : public QMainWindow {
 
  public:
   explicit MainWindow(Controller *contr, QWidget *parent = nullptr);
-  ~MainWindow();
+  ~MainWindow() override;
 
  private:
   Controller *controller;
