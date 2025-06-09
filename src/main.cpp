@@ -4,8 +4,7 @@
 using namespace s21;
 
 int main(int argc, char *argv[]) {
-  Model model;
-  Controller controller(model);
+  Controller controller;
   QtView startApp(&controller, argc, *argv);
 
   return startApp.startView();

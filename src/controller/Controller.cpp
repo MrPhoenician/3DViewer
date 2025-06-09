@@ -2,7 +2,7 @@
 
 using namespace s21;
 
-Controller::Controller(Model model) : model(model) {}
+Controller::Controller() = default;
 
 MatrixData Controller::getData(RawMatrixData data) {
   for (int i = 0; i < 3; i++) {
@@ -18,11 +18,13 @@ MatrixData Controller::getData(RawMatrixData data) {
 }
 
 glm::mat4 Controller::signal(RawMatrixData data) {
-  return model.getMatrix(getData(data));
+  return Model::getMatrix(getData(data));
 }
 
-ObjData Controller::signal(const std::string &path) { return Model::parsData(path); }
+ObjData Controller::signal(const std::string &path) {
+  return Model::parsData(path);
+}
 
 glm::mat4 Controller::signal(float aspect, bool projection) {
-  return model.getProjection(projection, aspect);
+  return Model::getProjection(projection, aspect);
 }

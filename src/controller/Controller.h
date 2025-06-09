@@ -11,13 +11,12 @@ typedef enum { AXIS_X, AXIS_Y, AXIS_Z } Signal;
 
 class Controller {
  public:
-  explicit Controller(Model model);
-  glm::mat4 signal(RawMatrixData data);
+  explicit Controller();
+  static glm::mat4 signal(RawMatrixData data);
   static ObjData signal(const std::string &str);
-  glm::mat4 signal(float aspect, bool projection);
+  static glm::mat4 signal(float aspect, bool projection);
 
  private:
-  Model model;
   static MatrixData getData(RawMatrixData data);
 };
 }  // namespace s21

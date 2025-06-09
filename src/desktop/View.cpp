@@ -146,7 +146,7 @@ void MainWindow::createWidgets() {
   buttonSave = new QPushButton("Save image", this);
   buttonEdgeColor = new QPushButton("Line color", this);
   buttonBackColor = new QPushButton("Background color", this);
-  buttonPointColor = new QPushButton("Point color", this);
+  buttonPointColor = new QPushButton("Vertice color", this);
   buttonGif = new QPushButton("Make gif", this);
   translation = new QLabel("Translation (X, Y, Z)", this);
   rotation = new QLabel("Rotation (X, Y, Z)", this);

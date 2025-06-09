@@ -41,7 +41,7 @@ uninstall:
 .PHONY: uninstall
 
 clean:
-	rm -rf out/*.* html_report 3DViewer_test dvi/ docdir/ bindir/ *.tar.gz test *.info *.gcda *.gcno desktop/*.o desktop/.qmake.stash desktop/Makefile desktop/moc_*.* ~/.config/S21/3DViewer.conf desktop/*.gcda desktop/*.gcno
+	rm -rf out/*.* html_report dvi/ docdir/ bindir/ *.tar.gz test *.info *.gcda *.gcno desktop/*.o desktop/.qmake.stash desktop/Makefile desktop/moc_*.* ~/.config/S21/3DViewer.conf desktop/*.gcda desktop/*.gcno
 .PHONY: clean
 
 dvi:
@@ -55,6 +55,7 @@ dist:
 
 tests: clean
 	cd desktop && qmake desktop.pro "CONFIG+=test" && make && make clean && rm Makefile .qmake.stash && mv 3DViewer_test ../
+	clean
 	./3DViewer_test
 .PHONY: tests
 
