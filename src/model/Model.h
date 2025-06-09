@@ -8,12 +8,14 @@
 namespace s21 {
 class Model {
  public:
-  Model();
-
   static glm::mat4 getMatrix(MatrixData data);
   static ObjData parsData(const std::string &string);
   static glm::mat4 getProjection(bool projection, float aspect);
+
+ private:
+  Model();
 };
+
 }  // namespace s21
 
 #endif  // CPP4_3DVIEWER_V2_0_1_MODEL_H

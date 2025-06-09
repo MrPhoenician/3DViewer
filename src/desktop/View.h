@@ -64,11 +64,10 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  explicit MainWindow(Controller *contr, QWidget *parent = nullptr);
+  explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow() override;
 
  private:
-  Controller *controller;
   RawMatrixData data;
   Widget *openGLWidget;
   OpenGL &openGL;
@@ -139,12 +138,11 @@ class MainWindow : public QMainWindow {
 
 class QtView {
  private:
-  Controller *controller;
   int argc;
   char *argv;
 
  public:
-  explicit QtView(Controller *controller, int argc, char *argv);
+  explicit QtView(int argc, char *argv);
   int startView();
 };
 }  // namespace s21

@@ -46,11 +46,8 @@ Widget::~Widget() {
   }
 }
 
-MainWindow::MainWindow(Controller *contr, QWidget *parent)
-    : QMainWindow(parent),
-      controller(contr),
-      openGL(OpenGL::getInstance()),
-      projection('O') {
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), openGL(OpenGL::getInstance()), projection('O') {
   gifTimer = new QTimer(this);
   createWidgets();
   createRightPanel();
@@ -236,7 +233,7 @@ void MainWindow::setupSliderConnects(QSlider *slider, Signal signal,
             } else {
               data.setRotate(static_cast<float>(value), signal);
             }
-            openGL.setMatrix(controller->signal(data));
+            openGL.setMatrix(Controller::signal(data));
           });
 }
 
@@ -254,7 +251,7 @@ void MainWindow::setupConnections() {
           [this]() { setButtonSave(); });
   connect(sliderScale, &QSlider::valueChanged, this, [this](int value) {
     data.setScale(static_cast<float>(value));
-    openGL.setMatrix(controller->signal(data));
+    openGL.setMatrix(Controller::signal(data));
   });
   connect(toggleStipple, &QCheckBox::stateChanged, this,
           [this](int state) { openGL.setStippleLine(state == Qt::Checked); });
@@ -328,17 +325,17 @@ void MainWindow::setButtonSave() {
 void MainWindow::setProjection(const QString &text) {
   glm::mat4 projectionMat;
   if (text == "Orthographic") {
-    projectionMat = controller->signal(0, true);
+    projectionMat = Controller::signal(0, true);
     data.setTranslate(static_cast<float>(sliderTZ->value()), 2);
     projection = 'O';
   } else if (text == "Perspective") {
     float aspect = static_cast<float>(width()) / static_cast<float>(height());
-    projectionMat = controller->signal(aspect, false);
+    projectionMat = Controller::signal(aspect, false);
     data.setTranslate(static_cast<float>(sliderTZ->value()) - 100, 2);
     projection = 'P';
   }
   openGL.setProjectionMat(projectionMat);
-  openGL.setMatrix(controller->signal(data));
+  openGL.setMatrix(Controller::signal(data));
 }
 
 void MainWindow::loadSettings() {
@@ -417,7 +414,7 @@ MainWindow::~MainWindow() {
 void MainWindow::loadObj() {
   if (!filePath->isEmpty()) {
     openGLWidget->makeCurrent();  // включить openGL контекст
-    ObjData tempData = controller->signal(filePath->toStdString());
+    ObjData tempData = Controller::signal(filePath->toStdString());
     if (tempData.getStatus()) {
       openGL.uploadDataToBuffers(tempData);
       setNameAndValues(tempData);
@@ -493,12 +490,11 @@ void MainWindow::stopGifCapture() {
   }
 }
 
-QtView::QtView(Controller *controller, int argc, char *argv)
-    : controller(controller), argc(argc), argv(argv) {}
+QtView::QtView(int argc, char *argv) : argc(argc), argv(argv) {}
 
 int QtView::startView() {
   QApplication app(argc, &argv);
-  MainWindow window(controller);
+  MainWindow window;
   window.show();
 
   return app.exec();
