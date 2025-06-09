@@ -7,14 +7,14 @@ bool ObjLoader::loadObj(const char *filename) {
   tinyobj::attrib_t attrib;
   std::vector<tinyobj::shape_t> shapes;
   std::string err;
-  tinyobj::LoadObj(&attrib, &shapes, NULL, &err, filename, NULL, false);
+  tinyobj::LoadObj(&attrib, &shapes, nullptr, &err, filename, nullptr, false);
   if (attrib.vertices.empty()) {
     return false;
   }
 
   parseData(attrib, shapes);
   setCenterModel(data.vertices);
-  setScaleModel(data.vertices, 2.0f);
+  setScaleModel(data.vertices);
 
   return true;
 }
@@ -84,9 +84,9 @@ void ObjLoader::setCenterModel(std::vector<float> &vertices) {
   }
 }
 
-void ObjLoader::setScaleModel(std::vector<float> &vertices, float targetSize) {
+void ObjLoader::setScaleModel(std::vector<float> &vertices) {
   float size = getSize(vertices);
-  float scale = targetSize / size;
+  float scale = 2.0f / size;
 
   for (size_t i = 0; i < vertices.size(); i += 3) {
     vertices[i] *= scale;

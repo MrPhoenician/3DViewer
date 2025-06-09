@@ -17,9 +17,9 @@ class OpenGLBuffers {
 
  public:
   OpenGLBuffers();
-  GLuint getVAO();
+  GLuint getVAO() const;
   void updateBuffers(ObjData data);
-  unsigned int getIndicesCount();
+  unsigned int getIndicesCount() const;
   ~OpenGLBuffers();
 };
 }  // namespace s21

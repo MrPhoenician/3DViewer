@@ -16,4 +16,4 @@ void RawMatrixData::setRotate(float value, int id) { rotateXYZ[id] = value; }
 void RawMatrixData::setScale(float value) { scale = value; }
 glm::vec3 RawMatrixData::getTranslate() { return translateXYZ; }
 glm::vec3 RawMatrixData::getRotate() { return rotateXYZ; }
-float RawMatrixData::getScale() { return scale; }
+float RawMatrixData::getScale() const { return scale; }

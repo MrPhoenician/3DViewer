@@ -25,7 +25,6 @@ SOURCES += \
     ../api/ObjData.cpp \
     InitOpenGL.cpp
 
-
 HEADERS += \
     View.h \
     ../controller/Controller.h \
@@ -50,8 +49,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-QMAKE_CXXFLAGS += -Wall -Werror -Wextra
-
+QMAKE_CXXFLAGS += -Wall -Werror -Wextra -std=c++20
 
 test {
 
@@ -61,43 +59,27 @@ SOURCES =
 SOURCES += \
     ../tests/test.cpp\
     ../tests/test_units.cpp\
- #   widget.cpp \
- #   controller.cpp \
     ../model/objloader.cpp \
-#    shader.cpp \
- #   shaderProgram.cpp \
-#    openGLbuffers.cpp \
-#    OpenGL.cpp \
     ../model/Model.cpp \
     ../model/TransformationMatrix.cpp \
     ../api/RawMatrixData.cpp \
     ../api/MatrixData.cpp \
     ../api/ObjData.cpp \
- #   InitOpenGL.cpp
 
 HEADERS =
 HEADERS += \
     ../tests/test.h\
- #   widget.h \
- #   controller.h \
     ../model/objloader.h \
- #   shader.h \
- #   shaderProgram.h \
- #   OpenGL.h \
- #   openGLbuffers.h\
     ../model/Model.h\
     ../model/TransformationMatrix.h \
     ../api/ControllerApi.h \
     ../api/ModelApi.h \
     ../api/RawMatrixData.h \
     ../api/MatrixData.h \
- #   InitOpenGL.h \
     Singleton.h
-
 
 QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage 
 QMAKE_LFLAGS += -fprofile-arcs -ftest-coverage
 
 LIBS += -lgtest_main -lgtest -lpthread
-
 }

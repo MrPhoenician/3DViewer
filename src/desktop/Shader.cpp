@@ -7,13 +7,13 @@ Shader::Shader(const char* filepath, GLenum shaderType)
   this->myShader = gl.glCreateShader(shaderType);
   std::string shaderCode = loadShaderFromFile(filepath);
   const char* shaderSource = shaderCode.c_str();
-  gl.glShaderSource(this->myShader, 1, &shaderSource, NULL);
+  gl.glShaderSource(this->myShader, 1, &shaderSource, nullptr);
   gl.glCompileShader(this->myShader);
   int success;
   char infoLog[512];
   gl.glGetShaderiv(this->myShader, GL_COMPILE_STATUS, &success);
   if (!success) {
-    gl.glGetShaderInfoLog(this->myShader, 512, NULL, infoLog);
+    gl.glGetShaderInfoLog(this->myShader, 512, nullptr, infoLog);
     std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
   }
 }
@@ -31,6 +31,6 @@ std::string Shader::loadShaderFromFile(const char* filepath) {
   return shaderSource;
 }
 
-GLuint Shader::getShader() { return this->myShader; }
+GLuint Shader::getShader() const { return this->myShader; }
 
 Shader::~Shader() { gl.glDeleteShader(this->myShader); }

@@ -2,7 +2,7 @@
 
 using namespace s21;
 
-ObjData Model::parsData(std::string string) {
+ObjData Model::parsData(const std::string &string) {
   ObjData result;
   ObjLoader obj;
   if (!obj.loadObj(string.c_str())) {
@@ -18,7 +18,7 @@ ObjData Model::parsData(std::string string) {
   return result;
 }
 
-Model::Model() {}
+Model::Model() = default;
 
 glm::mat4 Model::getMatrix(MatrixData data) {
   TransformationMatrix matrix(data.getTranslate(), data.getRotate(),
@@ -31,5 +31,4 @@ glm::mat4 Model::getProjection(bool projection, float aspect) {
   TransformationMatrix matrix;
 
   return matrix.getProjection(projection, aspect);
-  ;
 }

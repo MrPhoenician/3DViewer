@@ -13,7 +13,7 @@ class ShaderProgram {
  public:
   ShaderProgram();
   void initProgram();
-  GLuint getShaderProgram();
+  GLuint getShaderProgram() const;
   ~ShaderProgram();
 };
 }  // namespace s21

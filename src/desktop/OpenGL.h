@@ -25,7 +25,7 @@ class OpenGL : public Singleton<OpenGL> {
   void changePointSize(int value);
   void setPointColor(const QColor &color);
   void setRoundVertices(int state);
-  void setProjectionMat(glm::mat4 matrix);
+  void setProjectionMat(glm::mat4 matrixIn);
   QColor getBackgroundColor();
   QColor getPointColor();
   QColor getLineColor();

@@ -18,16 +18,16 @@ void OpenGLBuffers::updateBuffers(ObjData objData) {
                   sizeof(unsigned int) * objData.getIndicesCount(),
                   objData.getIndicesVector().data(), GL_STATIC_DRAW);
   gl.glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
-                           (void *)0);
+                           (void *)nullptr);
   gl.glEnableVertexAttribArray(0);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   gl.glEnable(GL_PROGRAM_POINT_SIZE);
   indicesCount = objData.getIndicesCount();
 }
 
-unsigned int OpenGLBuffers::getIndicesCount() { return indicesCount; };
+unsigned int OpenGLBuffers::getIndicesCount() const { return indicesCount; };
 
-GLuint OpenGLBuffers::getVAO() { return VAO; };
+GLuint OpenGLBuffers::getVAO() const { return VAO; };
 
 OpenGLBuffers::~OpenGLBuffers() {
   if (VAO) gl.glDeleteVertexArrays(1, &VAO);

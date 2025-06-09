@@ -10,9 +10,9 @@ class Model {
  public:
   Model();
 
-  glm::mat4 getMatrix(MatrixData data);
-  ObjData parsData(std::string string);
-  glm::mat4 getProjection(bool projection, float aspect);
+  static glm::mat4 getMatrix(MatrixData data);
+  static ObjData parsData(const std::string &string);
+  static glm::mat4 getProjection(bool projection, float aspect);
 };
 }  // namespace s21
 

@@ -21,7 +21,7 @@ void OpenGL::init() {
 }
 
 void OpenGL::uploadDataToBuffers(ObjData data) {
-  glBuffers->updateBuffers(data);
+  glBuffers->updateBuffers(std::move(data));
 }
 
 void OpenGL::draw() {
@@ -39,14 +39,14 @@ void OpenGL::draw() {
   gl.glBindVertexArray(glBuffers->getVAO());
   gl.glDrawElements(GL_LINES,
                     static_cast<GLsizei>(glBuffers->getIndicesCount()),
-                    GL_UNSIGNED_INT, 0);
+                    GL_UNSIGNED_INT, nullptr);
   if (verticesSize >= 1.0) {
     gl.glUniform1i(stippleLoc, 0);
     gl.glUniform4fv(colorLocation, 1, &pointColor[0]);
     gl.glUniform1i(circleLoc, isCircle ? 1 : 0);
     gl.glDrawElements(GL_POINTS,
                       static_cast<GLsizei>(glBuffers->getIndicesCount()),
-                      GL_UNSIGNED_INT, 0);
+                      GL_UNSIGNED_INT, nullptr);
     gl.glUniform1i(circleLoc, 0);
   }
   gl.glBindVertexArray(0);
@@ -71,7 +71,7 @@ void OpenGL::setProjectionMat(glm::mat4 projectionMatrix) {
   projectionMat = projectionMatrix;
 }
 
-void OpenGL::setMatrix(glm::mat4 matrix) { this->matrix = matrix; }
+void OpenGL::setMatrix(glm::mat4 matrixIn) { this->matrix = matrixIn; }
 
 void OpenGL::setBackgroundColor(const QColor &color) { backColor = color; }
 

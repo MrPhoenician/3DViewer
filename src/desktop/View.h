@@ -23,6 +23,8 @@
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <format>
+#include <iostream>
 
 #include "../api/ControllerApi.h"
 #include "../controller/Controller.h"
@@ -71,9 +73,9 @@ class MainWindow : public QMainWindow {
   Widget *openGLWidget;
   OpenGL &openGL;
   char projection;
-  int GifId;
-  QTimer *GifTimer;
-  QElapsedTimer TimeCounter;
+  int gifId;
+  QTimer *gifTimer;
+  QElapsedTimer timeCounter;
   QSlider *sliderTX;
   QSlider *sliderTY;
   QSlider *sliderTZ;
@@ -83,17 +85,17 @@ class MainWindow : public QMainWindow {
   QSlider *sliderScale;
   QSlider *sliderThikness;
   QSlider *sliderVertices;
-  QLabel *LRotation;
-  QLabel *LTranslation;
-  QLabel *LScale;
-  QLabel *LThikness;
-  QLabel *LPointSize;
-  QLabel *LModelName;
-  QLabel *LValueModelName;
-  QLabel *LVertices;
-  QLabel *LValueVertices;
-  QLabel *LEdges;
-  QLabel *LValueEdges;
+  QLabel *rotation;
+  QLabel *translation;
+  QLabel *scale;
+  QLabel *thikness;
+  QLabel *pointSize;
+  QLabel *modelName;
+  QLabel *valueModelName;
+  QLabel *vertices;
+  QLabel *valueVertices;
+  QLabel *edges;
+  QLabel *valueEdges;
   QPushButton *buttonLoad;
   QPushButton *buttonEdgeColor;
   QPushButton *buttonBackColor;
@@ -113,8 +115,8 @@ class MainWindow : public QMainWindow {
   QString *filePath;
   QSettings *settings;
   void createWidgets();
-  QSlider *createSliderWithLineEdit(int const min, int const max,
-                                    int const average, QLineEdit **lineEditPtr);
+  QSlider *createSliderWithLineEdit(int min, int max, int average,
+                                    QLineEdit **lineEditPtr);
   void createRightPanel();
   void setupConnections();
   void setupSliderSync(QSlider *slider, QLineEdit *lineEdit, int min, int max);

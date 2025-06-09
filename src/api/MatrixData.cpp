@@ -17,4 +17,4 @@ void MatrixData::setRotate(glm::vec3 vector) { rotateXYZ = vector; }
 void MatrixData::setScale(float value) { scale = value; }
 glm::vec3 MatrixData::getTranslate() { return translateXYZ; }
 glm::vec3 MatrixData::getRotate() { return rotateXYZ; }
-float MatrixData::getScale() { return scale; }
+float MatrixData::getScale() const { return scale; }

@@ -13,12 +13,12 @@ namespace s21 {
 class Shader {
  private:
   GLuint myShader;
-  std::string loadShaderFromFile(const char *filepath);
+  static std::string loadShaderFromFile(const char *filepath);
   InitOpenGL &gl;
 
  public:
   Shader(const char *filepath, GLenum shaderType);
-  GLuint getShader();
+  GLuint getShader() const;
   ~Shader();
 };
 }  // namespace s21

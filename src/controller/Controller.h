@@ -13,12 +13,12 @@ class Controller {
  public:
   explicit Controller(Model model);
   glm::mat4 signal(RawMatrixData data);
-  ObjData signal(std::string);
+  static ObjData signal(const std::string &str);
   glm::mat4 signal(float aspect, bool projection);
 
  private:
   Model model;
-  MatrixData getData(RawMatrixData data);
+  static MatrixData getData(RawMatrixData data);
 };
 }  // namespace s21
 #endif  // CPP4_3DVIEWER_V2_0_1_CONTROLLER_H

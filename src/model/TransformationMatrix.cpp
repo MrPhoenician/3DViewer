@@ -1,6 +1,5 @@
 #include "TransformationMatrix.h"
 
-#include "Model.h"
 #include "ObjLoader.h"
 
 using namespace s21;

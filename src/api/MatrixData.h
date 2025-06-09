@@ -14,7 +14,7 @@ class MatrixData {
   void setScale(float value);
   glm::vec3 getTranslate();
   glm::vec3 getRotate();
-  float getScale();
+  float getScale() const;
 
  private:
   glm::vec3 translateXYZ;

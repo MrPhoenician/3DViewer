@@ -1,8 +1,5 @@
 #include "View.h"
 
-#include <QTimer>
-#include <iostream>
-
 using namespace s21;
 
 Widget::Widget(QWidget *parent)
@@ -54,7 +51,7 @@ MainWindow::MainWindow(Controller *contr, QWidget *parent)
       controller(contr),
       openGL(OpenGL::getInstance()),
       projection('O') {
-  GifTimer = new QTimer(this);
+  gifTimer = new QTimer(this);
   createWidgets();
   createRightPanel();
   setupConnections();
@@ -68,22 +65,27 @@ MainWindow::MainWindow(Controller *contr, QWidget *parent)
 }
 
 void MainWindow::createRightPanel() {
-  // Создаем вертикальную компоновку для правой панели
-  auto rightPanelLayout = new QVBoxLayout();
+  // Создаем контейнер для правой панели
+  auto rightPanel = new QWidget(this);
+  rightPanel->setFixedWidth(200);
+  // Layout для правой панели, привязанный к rightPanel
+  auto rightPanelLayout = new QVBoxLayout(rightPanel);
   rightPanelLayout->setAlignment(Qt::AlignTop);
+  // Добавляем кнопки и метки
   rightPanelLayout->addWidget(buttonLoad);
   rightPanelLayout->addWidget(buttonSave);
   rightPanelLayout->addWidget(buttonGif);
-  rightPanelLayout->addWidget(LModelName);
-  rightPanelLayout->addWidget(LValueModelName);
-  rightPanelLayout->addWidget(LVertices);
-  rightPanelLayout->addWidget(LValueVertices);
-  rightPanelLayout->addWidget(LEdges);
-  rightPanelLayout->addWidget(LValueEdges);
-  LValueModelName->setAlignment(Qt::AlignCenter);
-  LValueVertices->setAlignment(Qt::AlignCenter);
-  LValueEdges->setAlignment(Qt::AlignCenter);
-  rightPanelLayout->addWidget(LTranslation);
+  rightPanelLayout->addWidget(modelName);
+  rightPanelLayout->addWidget(valueModelName);
+  rightPanelLayout->addWidget(vertices);
+  rightPanelLayout->addWidget(valueVertices);
+  rightPanelLayout->addWidget(edges);
+  rightPanelLayout->addWidget(valueEdges);
+  valueModelName->setAlignment(Qt::AlignCenter);
+  valueVertices->setAlignment(Qt::AlignCenter);
+  valueEdges->setAlignment(Qt::AlignCenter);
+  // Translation
+  rightPanelLayout->addWidget(translation);
   auto sliderTXLayout = new QHBoxLayout();
   sliderTXLayout->addWidget(sliderTX);
   sliderTXLayout->addWidget(lineEditTX);
@@ -96,7 +98,8 @@ void MainWindow::createRightPanel() {
   sliderTZLayout->addWidget(sliderTZ);
   sliderTZLayout->addWidget(lineEditTZ);
   rightPanelLayout->addLayout(sliderTZLayout);
-  rightPanelLayout->addWidget(LRotation);
+  // Rotation
+  rightPanelLayout->addWidget(rotation);
   auto sliderRXLayout = new QHBoxLayout();
   sliderRXLayout->addWidget(sliderRotX);
   sliderRXLayout->addWidget(lineEditRX);
@@ -109,32 +112,32 @@ void MainWindow::createRightPanel() {
   sliderRZLayout->addWidget(sliderRotZ);
   sliderRZLayout->addWidget(lineEditRZ);
   rightPanelLayout->addLayout(sliderRZLayout);
-  rightPanelLayout->addWidget(LScale);
+  // Scale
+  rightPanelLayout->addWidget(scale);
   auto sliderSLayout = new QHBoxLayout();
   sliderSLayout->addWidget(sliderScale);
   sliderSLayout->addWidget(lineEditS);
   rightPanelLayout->addLayout(sliderSLayout);
+  // Цвета и стили
   rightPanelLayout->addWidget(buttonEdgeColor);
   rightPanelLayout->addWidget(buttonBackColor);
   rightPanelLayout->addWidget(buttonPointColor);
   rightPanelLayout->addWidget(toggleStipple);
-  rightPanelLayout->addWidget(LThikness);
+  rightPanelLayout->addWidget(thikness);
   rightPanelLayout->addWidget(sliderThikness);
   rightPanelLayout->addWidget(toggleRoundV);
-  rightPanelLayout->addWidget(LPointSize);
+  rightPanelLayout->addWidget(pointSize);
   rightPanelLayout->addWidget(sliderVertices);
   rightPanelLayout->addWidget(projectionType);
-  // Создаем контейнер для правой панели и устанавливаем фиксированную ширину
-  auto rightPanel = new QWidget();
+  // Устанавливаем layout на rightPanel
   rightPanel->setLayout(rightPanelLayout);
-  rightPanel->setFixedWidth(200);  // Фиксируем ширину правой панели
-  // Создаем горизонтальную компоновку для всего окна
-  auto mainLayout = new QHBoxLayout();
-  mainLayout->addWidget(openGLWidget);  // Добавляем OpenGL-виджет с весом 2
-  mainLayout->addWidget(rightPanel);
-  auto centralWidget = new QWidget();
-  centralWidget->setLayout(mainLayout);
+  // Центральный виджет приложения
+  auto centralWidget = new QWidget(this);
   setCentralWidget(centralWidget);
+  // Основной layout: OpenGL + правая панель
+  auto mainLayout = new QHBoxLayout(centralWidget);
+  mainLayout->addWidget(openGLWidget);
+  mainLayout->addWidget(rightPanel);
 }
 
 void MainWindow::createWidgets() {
@@ -145,17 +148,17 @@ void MainWindow::createWidgets() {
   buttonBackColor = new QPushButton("Background color", this);
   buttonPointColor = new QPushButton("Point color", this);
   buttonGif = new QPushButton("Make gif", this);
-  LTranslation = new QLabel("Translation (X, Y, Z)", this);
-  LRotation = new QLabel("Rotation (X, Y, Z)", this);
-  LScale = new QLabel("Scale", this);
-  LThikness = new QLabel("Line thikness", this);
-  LPointSize = new QLabel("Vertice size", this);
-  LModelName = new QLabel("Model name:", this);
-  LValueModelName = new QLabel(this);
-  LVertices = new QLabel("Number of vertices:", this);
-  LValueVertices = new QLabel(this);
-  LEdges = new QLabel("Number of edges:", this);
-  LValueEdges = new QLabel(this);
+  translation = new QLabel("Translation (X, Y, Z)", this);
+  rotation = new QLabel("Rotation (X, Y, Z)", this);
+  scale = new QLabel("Scale", this);
+  thikness = new QLabel("Line thikness", this);
+  pointSize = new QLabel("Vertice size", this);
+  modelName = new QLabel("Model name:", this);
+  valueModelName = new QLabel(this);
+  vertices = new QLabel("Number of vertices:", this);
+  valueVertices = new QLabel(this);
+  edges = new QLabel("Number of edges:", this);
+  valueEdges = new QLabel(this);
   toggleStipple = new QCheckBox("Stipple lines", this);
   toggleRoundV = new QCheckBox("Round vertices", this);
   sliderTX = createSliderWithLineEdit(0, 100, 50, &lineEditTX);
@@ -175,9 +178,9 @@ void MainWindow::createWidgets() {
 }
 
 void MainWindow::setNameAndValues(ObjData tempData) {
-  LValueModelName->setText(QString::fromStdString(tempData.getName()));
-  LValueVertices->setText(QString::number(tempData.getVerticesCount()));
-  LValueEdges->setText(QString::number(tempData.getEdgesCount()));
+  valueModelName->setText(QString::fromStdString(tempData.getName()));
+  valueVertices->setText(QString::number(tempData.getVerticesCount()));
+  valueEdges->setText(QString::number(tempData.getEdgesCount()));
 }
 
 void MainWindow::setupSliderSync(QSlider *slider, QLineEdit *lineEdit, int min,
@@ -227,18 +230,18 @@ void MainWindow::setupSliderConnects(QSlider *slider, Signal signal,
   connect(slider, &QSlider::valueChanged, this,
           [this, signal, type](int value) {
             if (type == 'T' && signal == AXIS_Z && projection == 'P') {
-              data.setTranslate(value - 100, signal);
+              data.setTranslate(static_cast<float>(value) - 100, signal);
             } else if (type == 'T') {
-              data.setTranslate(value, signal);
+              data.setTranslate(static_cast<float>(value), signal);
             } else {
-              data.setRotate(value, signal);
+              data.setRotate(static_cast<float>(value), signal);
             }
             openGL.setMatrix(controller->signal(data));
           });
 }
 
 void MainWindow::setupConnections() {
-  connect(GifTimer, &QTimer::timeout, this, &MainWindow::makeGifLoop);
+  connect(gifTimer, &QTimer::timeout, this, &MainWindow::makeGifLoop);
   connect(projectionType, &QComboBox::currentTextChanged, this,
           [this](const QString &text) { setProjection(text); });
   connect(buttonLoad, &QPushButton::clicked, this, [this]() {
@@ -297,15 +300,15 @@ void MainWindow::updateButtonColor(QPushButton *button, const QColor &color) {
   bool brightness =
       ((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) <
       128;  // Если яркость меньше 128, цвет считается темным
-  button->setStyleSheet(QString("background-color: %1; color: %2;")
-                            .arg(color.name())
-                            .arg(brightness ? "white" : "black"));
+  auto style =
+      std::format("background-color: {}; color: {};",
+                  color.name().toStdString(), brightness ? "white" : "black");
+  button->setStyleSheet(QString::fromStdString(style));
 }
 
 void MainWindow::setButtonSave() {
-  QFileDialog FileDialog;
   QString selectedFilter;
-  QString FileName = FileDialog.getSaveFileName(
+  QString FileName = QFileDialog::getSaveFileName(
       this, tr("Save"), "", "BMP (*.bmp);; JPEG (*.jpg *.jpeg)",
       &selectedFilter);
   if (!FileName.isEmpty()) {
@@ -362,13 +365,13 @@ void MainWindow::loadSettings() {
     *filePath = settings->value("filePath", 0).toString();
     loadObj();
   }
-  QColor bColor = settings->value("backgroundColor", 0).value<QColor>();
+  auto bColor = settings->value("backgroundColor", 0).value<QColor>();
   openGL.setBackgroundColor(bColor);
   updateButtonColor(buttonBackColor, bColor);
-  QColor lColor = settings->value("lineColor", 0).value<QColor>();
+  auto lColor = settings->value("lineColor", 0).value<QColor>();
   openGL.setLineColor(lColor);
   updateButtonColor(buttonEdgeColor, lColor);
-  QColor pColor = settings->value("pointColor", 0).value<QColor>();
+  auto pColor = settings->value("pointColor", 0).value<QColor>();
   openGL.setPointColor(pColor);
   updateButtonColor(buttonPointColor, pColor);
   projectionType->setCurrentText(
@@ -399,8 +402,8 @@ void MainWindow::saveSettings() {
 
 MainWindow::~MainWindow() {
   saveSettings();
-  if (GifTimer && GifTimer->isActive()) {
-    GifTimer->stop();
+  if (gifTimer && gifTimer->isActive()) {
+    gifTimer->stop();
   }
   // Удаляем временные файлы GIF с помощью QFile
   QDir dir(".");
@@ -435,13 +438,13 @@ void MainWindow::makeGifLoop() {
 
   // Сохраняем кадр на диск
   QString fileName =
-      QString("./ForGifFrame_%1.bmp").arg(GifId, 4, 10, QChar('0'));
+      QString("./ForGifFrame_%1.bmp").arg(gifId, 4, 10, QChar('0'));
   frame.save(fileName);
-  GifId++;
+  gifId++;
 
   // Проверяем, завершено ли время записи GIF
-  if (TimeCounter.elapsed() >= 5000) {  // 5 секунд
-    GifTimer->stop();
+  if (timeCounter.elapsed() >= 5000) {  // 5 секунд
+    gifTimer->stop();
     openGLWidget->gifCapture = false;
 
     // Создаем GIF из сохраненных кадров с помощью QProcess
@@ -474,17 +477,17 @@ void MainWindow::makeGifLoop() {
 
 void MainWindow::startGifCapture() {
   if (!openGLWidget->gifCapture) {
-    GifId = 0;
-    GifTimer->start(100);  // Интервал между кадрами: 100 мс
-    TimeCounter.start();
+    gifId = 0;
+    gifTimer->start(100);  // Интервал между кадрами: 100 мс
+    timeCounter.start();
     openGLWidget->gifCapture = true;
     buttonGif->setText("Stop recording");
   }
 }
 
 void MainWindow::stopGifCapture() {
-  if (GifTimer->isActive()) {
-    GifTimer->stop();
+  if (gifTimer->isActive()) {
+    gifTimer->stop();
     openGLWidget->gifCapture = false;
     buttonGif->setText("Make gif");
   }

@@ -18,18 +18,17 @@ typedef struct {
 
 class ObjLoader {
  public:
-  bool loadObj(
-      const char *filename);  // основная функция загрузки данных из файла
+  bool loadObj(const char *filename);
   data_t getData();
 
  private:
   data_t data;
   void parseData(tinyobj::attrib_t attrib,
                  std::vector<tinyobj::shape_t> shapes);
-  glm::vec3 getCenter(std::vector<float> &vertices);
-  float getSize(const std::vector<float> &vertices);
-  void setCenterModel(std::vector<float> &vertices);
-  void setScaleModel(std::vector<float> &vertices, float targetSize);
+  static glm::vec3 getCenter(std::vector<float> &vertices);
+  static float getSize(const std::vector<float> &vertices);
+  static void setCenterModel(std::vector<float> &vertices);
+  static void setScaleModel(std::vector<float> &vertices);
 };
 }  // namespace s21
 

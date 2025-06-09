@@ -15,14 +15,13 @@ class ObjData {
   void setIndicesCount(unsigned int count);
   void setEdgesCount(unsigned int count);
   void setVerticesCount(unsigned int count);
-  void setStatus(bool status);
   std::vector<float> getVerticesVector();
   std::vector<unsigned int> getIndicesVector();
   std::string getName();
-  unsigned int getVerticesCount();
-  unsigned int getEdgesCount();
-  unsigned int getIndicesCount();
-  bool getStatus();
+  unsigned int getVerticesCount() const;
+  unsigned int getEdgesCount() const;
+  unsigned int getIndicesCount() const;
+  bool getStatus() const;
 
  private:
   std::vector<float> vertices;
