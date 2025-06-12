@@ -18,7 +18,7 @@ class OpenGL : public Singleton<OpenGL> {
   void setMatrix(glm::mat4 matrix);
   void uploadDataToBuffers(ObjData data);
   void draw();
-  void setBackgroundColor(const QColor &color);
+  void setBackgroundColor(const QColor color);
   void setStippleLine(int x);
   void setLineColor(const QColor &color);
   void changeThikness(int value);
@@ -33,6 +33,7 @@ class OpenGL : public Singleton<OpenGL> {
 
  private:
   OpenGL();
+  void getUniformsLoc();
   glm::mat4 projectionMat;
   InitOpenGL &gl;
   QColor backColor;
@@ -51,7 +52,12 @@ class OpenGL : public Singleton<OpenGL> {
   GLint projectionLoc;
   GLint transformLoc;
   GLint circleLoc;
-  void getUniformsLoc();
+  glm::vec4 cashLineColor;
+  bool cashStippleMode;
+  bool cashMatrix;
+  bool cashProjectionMat;
+  float cashVerticesSize;
+  float cashLineThikness;
 };
 }  // namespace s21
 

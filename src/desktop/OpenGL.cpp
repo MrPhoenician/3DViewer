@@ -10,7 +10,13 @@ OpenGL::OpenGL()
       lineColor(0.0f, 0.0f, 0.0f, 1.0f),
       matrix(glm::mat4(1.0f)),
       lineThikness(1.0f),
-      verticesSize(0.0) {}
+      verticesSize(0.0),
+      cashLineColor(lineColor),
+      cashStippleMode(true),
+      cashMatrix(true),
+      cashProjectionMat(true),
+      cashVerticesSize(verticesSize),
+      cashLineThikness(true) {}
 
 void OpenGL::init() {
   currentProgram = new ShaderProgram();
@@ -18,38 +24,63 @@ void OpenGL::init() {
   getUniformsLoc();
   gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   gl.glClear(GL_COLOR_BUFFER_BIT);
+  gl.glUniform1i(stippleLoc, 1);
 }
 
 void OpenGL::uploadDataToBuffers(ObjData data) {
   glBuffers->updateBuffers(std::move(data));
+  gl.glBindVertexArray(glBuffers->getVAO());
 }
 
 void OpenGL::draw() {
   gl.glClearColor(backColor.redF(), backColor.greenF(), backColor.blueF(),
-                  backColor.alphaF());  // Устанавливаем цвет очистки
+                  backColor.alphaF());
   gl.glClear(GL_COLOR_BUFFER_BIT);
   gl.glUseProgram(currentProgram->getShaderProgram());
-  gl.glUniform4fv(colorLocation, 1, &lineColor[0]);
-  gl.glUniform1i(stippleLoc, stippleMode ? 1 : 0);
-  gl.glUniform1f(pointLoc, verticesSize);
-  gl.glUniformMatrix4fv(projectionLoc, 1, GL_FALSE,
-                        glm::value_ptr(projectionMat));
-  gl.glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(matrix));
-  gl.glLineWidth(lineThikness);
-  gl.glBindVertexArray(glBuffers->getVAO());
+//  if (cashLineColor != lineColor) {
+    gl.glUniform4fv(colorLocation, 1, &lineColor[0]);
+//    cashLineColor = lineColor;
+//  }
+  if (cashStippleMode != stippleMode) {
+    gl.glUniform1i(stippleLoc, stippleMode);
+    cashStippleMode = stippleMode;
+  }
+  if (cashVerticesSize != verticesSize) {
+    gl.glUniform1f(pointLoc, verticesSize);
+    cashVerticesSize = verticesSize;
+  }
+  if (cashProjectionMat) {
+    gl.glUniformMatrix4fv(projectionLoc, 1, GL_FALSE,
+                          glm::value_ptr(projectionMat));
+    cashProjectionMat = false;
+  }
+  if (cashMatrix) {
+    gl.glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(matrix));
+    cashMatrix = false;
+  }
+  if (cashLineThikness != lineThikness) {
+    gl.glLineWidth(lineThikness);
+    cashLineThikness = lineThikness;
+  }
   gl.glDrawElements(GL_LINES,
                     static_cast<GLsizei>(glBuffers->getIndicesCount()),
                     GL_UNSIGNED_INT, nullptr);
   if (verticesSize >= 1.0) {
-    gl.glUniform1i(stippleLoc, 0);
+    if (stippleMode) {
+      gl.glUniform1i(stippleLoc, 0);
+    }
     gl.glUniform4fv(colorLocation, 1, &pointColor[0]);
     gl.glUniform1i(circleLoc, isCircle ? 1 : 0);
     gl.glDrawElements(GL_POINTS,
                       static_cast<GLsizei>(glBuffers->getIndicesCount()),
                       GL_UNSIGNED_INT, nullptr);
-    gl.glUniform1i(circleLoc, 0);
+    if (isCircle) {
+      gl.glUniform1i(circleLoc, 0);
+    }
+    if (stippleMode) {
+      gl.glUniform1i(stippleLoc, stippleMode);
+    }
   }
-  gl.glBindVertexArray(0);
 }
 
 void OpenGL::getUniformsLoc() {
@@ -69,11 +100,15 @@ void OpenGL::getUniformsLoc() {
 
 void OpenGL::setProjectionMat(glm::mat4 projectionMatrix) {
   projectionMat = projectionMatrix;
+  cashProjectionMat = true;
 }
 
-void OpenGL::setMatrix(glm::mat4 matrixIn) { this->matrix = matrixIn; }
+void OpenGL::setMatrix(glm::mat4 matrixIn) {
+  this->matrix = matrixIn;
+  cashMatrix = true;
+}
 
-void OpenGL::setBackgroundColor(const QColor &color) { backColor = color; }
+void OpenGL::setBackgroundColor(const QColor color) { backColor = color; }
 
 void OpenGL::setPointColor(const QColor &color) {
   pointColor =

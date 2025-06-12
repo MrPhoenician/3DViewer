@@ -1,7 +1,5 @@
 #include "TransformationMatrix.h"
 
-#include "ObjLoader.h"
-
 using namespace s21;
 
 TransformationMatrix::TransformationMatrix() : projectionMat(glm::mat4(1.0f)) {}
