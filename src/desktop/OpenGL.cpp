@@ -37,10 +37,10 @@ void OpenGL::draw() {
                   backColor.alphaF());
   gl.glClear(GL_COLOR_BUFFER_BIT);
   gl.glUseProgram(currentProgram->getShaderProgram());
-//  if (cashLineColor != lineColor) {
+  if (cashLineColor != lineColor) {
     gl.glUniform4fv(colorLocation, 1, &lineColor[0]);
-//    cashLineColor = lineColor;
-//  }
+    cashLineColor = lineColor;
+  }
   if (cashStippleMode != stippleMode) {
     gl.glUniform1i(stippleLoc, stippleMode);
     cashStippleMode = stippleMode;
@@ -70,6 +70,7 @@ void OpenGL::draw() {
       gl.glUniform1i(stippleLoc, 0);
     }
     gl.glUniform4fv(colorLocation, 1, &pointColor[0]);
+    cashLineColor = pointColor;
     gl.glUniform1i(circleLoc, isCircle ? 1 : 0);
     gl.glDrawElements(GL_POINTS,
                       static_cast<GLsizei>(glBuffers->getIndicesCount()),
@@ -108,7 +109,7 @@ void OpenGL::setMatrix(glm::mat4 matrixIn) {
   cashMatrix = true;
 }
 
-void OpenGL::setBackgroundColor(const QColor color) { backColor = color; }
+void OpenGL::setBackgroundColor(const QColor &color) { backColor = color; }
 
 void OpenGL::setPointColor(const QColor &color) {
   pointColor =

@@ -18,7 +18,7 @@ class OpenGL : public Singleton<OpenGL> {
   void setMatrix(glm::mat4 matrix);
   void uploadDataToBuffers(ObjData data);
   void draw();
-  void setBackgroundColor(const QColor color);
+  void setBackgroundColor(const QColor &color);
   void setStippleLine(int x);
   void setLineColor(const QColor &color);
   void changeThikness(int value);
