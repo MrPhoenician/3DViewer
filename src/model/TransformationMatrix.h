@@ -5,8 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "ObjLoader.h"
-
 namespace s21 {
 
 class TransformationMatrix {
@@ -21,7 +19,7 @@ class TransformationMatrix {
   TransformationMatrix();
   TransformationMatrix(glm::vec3 transVec, glm::vec3 rotVec,
                        float incomingScale);
-  glm::mat4 getMatrix();
+  glm::mat4 getMatrix() const;
   void update();
   glm::mat4 getProjection(bool projection, float aspect);
   void setOrthographic();

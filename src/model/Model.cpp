@@ -20,14 +20,14 @@ ObjData Model::parsData(const std::string &string) {
 
 Model::Model() = default;
 
-glm::mat4 Model::getMatrix(MatrixData data) {
-  TransformationMatrix matrix(data.getTranslate(), data.getRotate(),
-                              data.getScale());
+glm::mat4 Model::getMatrix(const MatrixData &data) {
+  const TransformationMatrix matrix(data.getTranslate(), data.getRotate(),
+                                    data.getScale());
 
   return matrix.getMatrix();
 }
 
-glm::mat4 Model::getProjection(bool projection, float aspect) {
+glm::mat4 Model::getProjection(const bool projection, const float aspect) {
   TransformationMatrix matrix;
 
   return matrix.getProjection(projection, aspect);

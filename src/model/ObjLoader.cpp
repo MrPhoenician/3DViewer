@@ -20,7 +20,7 @@ bool ObjLoader::loadObj(const char *filename) {
 }
 
 void ObjLoader::parseData(tinyobj::attrib_t attrib,
-                          std::vector<tinyobj::shape_t> shapes) {
+                          const std::vector<tinyobj::shape_t> &shapes) {
   this->data.verticesCount = attrib.vertices.size() / 3;
   this->data.vertices.swap(attrib.vertices);
   this->data.name = shapes.begin()->name;
@@ -31,7 +31,7 @@ void ObjLoader::parseData(tinyobj::attrib_t attrib,
     int j = 0;
     int count = 0;
     for (size_t i = 0; i < mesh.indices.size(); ++i) {
-      int temp = mesh.num_face_vertices[j];
+      const int temp = mesh.num_face_vertices[j];
       this->data.indices.push_back(mesh.indices[i].vertex_index);
       count++;
       if (count != 1) {
@@ -48,7 +48,7 @@ void ObjLoader::parseData(tinyobj::attrib_t attrib,
   this->data.edgesCount = facesCount + this->data.verticesCount - 2;
 }
 
-glm::vec3 ObjLoader::getCenter(std::vector<float> &vertices) {
+glm::vec3 ObjLoader::getCenter(const std::vector<float> &vertices) {
   glm::vec3 minVertex(std::numeric_limits<float>::max());
   glm::vec3 maxVertex(std::numeric_limits<float>::lowest());
 
@@ -75,7 +75,7 @@ float ObjLoader::getSize(const std::vector<float> &vertices) {
 }
 
 void ObjLoader::setCenterModel(std::vector<float> &vertices) {
-  glm::vec3 center = getCenter(vertices);
+  const glm::vec3 center = getCenter(vertices);
 
   for (size_t i = 0; i < vertices.size(); i += 3) {
     vertices[i] -= center.x;
@@ -85,8 +85,8 @@ void ObjLoader::setCenterModel(std::vector<float> &vertices) {
 }
 
 void ObjLoader::setScaleModel(std::vector<float> &vertices) {
-  float size = getSize(vertices);
-  float scale = 2.0f / size;
+  const float size = getSize(vertices);
+  const float scale = 2.0f / size;
 
   for (size_t i = 0; i < vertices.size(); i += 3) {
     vertices[i] *= scale;

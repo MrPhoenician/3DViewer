@@ -23,7 +23,6 @@
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <format>
 #include <iostream>
 
 #include "../api/ControllerApi.h"
@@ -31,7 +30,6 @@
 #include "InitOpenGL.h"
 #include "OpenGL.h"
 #include "OpenGLFasad.h"
-#include "Singleton.h"
 
 #define DELAY 100
 
@@ -53,7 +51,7 @@ class Widget : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   void resizeGL(int w, int h) override;
 
  public:
-  explicit Widget(QWidget *parent = nullptr);
+  explicit Widget(const QWidget *parent = nullptr);
   bool isFile;
   bool saveScreenshot(const QString &filename);
   bool gifCapture;
@@ -120,13 +118,13 @@ class MainWindow : public QMainWindow {
   void setupConnections();
   void setupSliderSync(QSlider *slider, QLineEdit *lineEdit, int min, int max);
   QLineEdit *createLineEdit(int charWidth);
-  void setNameAndValues(ObjData tempData);
-  void setupSliderConnects(QSlider *slider, Signal signal, char type);
+  void setNameAndValues(ObjData tempData) const;
+  void setupSliderConnects(const QSlider *slider, Signal signal, char type);
   void loadObj();
-  void saveSettings();
+  void saveSettings() const;
   void loadSettings();
   void startGifCapture();
-  void stopGifCapture();
+  void stopGifCapture() const;
   void setProjection(const QString &text);
   void setButtonSave();
   void setColor(QPushButton &button, const QString &text);

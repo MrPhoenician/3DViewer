@@ -1,8 +1,6 @@
 #ifndef CPP4_3DVIEWER_V2_0_1_OBJLOADER_H
 #define CPP4_3DVIEWER_V2_0_1_OBJLOADER_H
 
-#include <iostream>
-
 #include "../dependencies/tiny_obj_loader.h"
 #include "TransformationMatrix.h"
 
@@ -22,10 +20,10 @@ class ObjLoader {
   data_t getData();
 
  private:
-  data_t data;
+  data_t data{};
   void parseData(tinyobj::attrib_t attrib,
-                 std::vector<tinyobj::shape_t> shapes);
-  static glm::vec3 getCenter(std::vector<float> &vertices);
+                 const std::vector<tinyobj::shape_t> &shapes);
+  static glm::vec3 getCenter(const std::vector<float> &vertices);
   static float getSize(const std::vector<float> &vertices);
   static void setCenterModel(std::vector<float> &vertices);
   static void setScaleModel(std::vector<float> &vertices);

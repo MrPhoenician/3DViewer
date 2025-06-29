@@ -8,12 +8,10 @@
 namespace s21 {
 class Model {
  public:
-  static glm::mat4 getMatrix(MatrixData data);
+  Model();
+  static glm::mat4 getMatrix(const MatrixData &data);
   static ObjData parsData(const std::string &string);
   static glm::mat4 getProjection(bool projection, float aspect);
-
- private:
-  Model();
 };
 
 }  // namespace s21

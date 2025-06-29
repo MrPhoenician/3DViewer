@@ -12,8 +12,8 @@ class MatrixData {
   void setTranslate(glm::vec3 vector);
   void setRotate(glm::vec3 vector);
   void setScale(float value);
-  glm::vec3 getTranslate();
-  glm::vec3 getRotate();
+  glm::vec3 getTranslate() const;
+  glm::vec3 getRotate() const;
   float getScale() const;
 
  private:

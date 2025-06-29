@@ -11,7 +11,7 @@ typedef enum { AXIS_X, AXIS_Y, AXIS_Z } Signal;
 
 class Controller {
  public:
-  static glm::mat4 signal(RawMatrixData data);
+  static glm::mat4 signal(const RawMatrixData &data);
   static ObjData signal(const std::string &str);
   static glm::mat4 signal(float aspect, bool projection);
 

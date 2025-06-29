@@ -1,9 +1,6 @@
 #ifndef CPP4_3DVIEWER_V2_0_1_OPENGLBUFFERS_H
 #define CPP4_3DVIEWER_V2_0_1_OPENGLBUFFERS_H
 
-#include <QOpenGLExtraFunctions>
-#include <iostream>
-
 #include "../api/ControllerApi.h"
 #include "InitOpenGL.h"
 

@@ -14,11 +14,15 @@ void ObjData::setIndicesVector(std::vector<unsigned int> vector) {
   indices.swap(vector);
 }
 
-void ObjData::setIndicesCount(unsigned int count) { indicesCount = count; }
+void ObjData::setIndicesCount(const unsigned int count) {
+  indicesCount = count;
+}
 
-void ObjData::setEdgesCount(unsigned int count) { edgesCount = count; }
+void ObjData::setEdgesCount(const unsigned int count) { edgesCount = count; }
 
-void ObjData::setVerticesCount(unsigned int count) { verticesCount = count; }
+void ObjData::setVerticesCount(const unsigned int count) {
+  verticesCount = count;
+}
 
 std::vector<float> ObjData::getVerticesVector() { return vertices; }
 

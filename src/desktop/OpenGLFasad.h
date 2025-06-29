@@ -11,8 +11,8 @@ class OpenGLFasad {
 
  public:
   OpenGLFasad();
-  void init();
-  void draw();
+  void init() const;
+  void draw() const;
 };
 }  // namespace s21
 

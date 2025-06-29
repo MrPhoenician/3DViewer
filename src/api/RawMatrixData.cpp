@@ -8,12 +8,14 @@ RawMatrixData::RawMatrixData() {
   scale = 50.0f;
 }
 
-void RawMatrixData::setTranslate(float value, int id) {
+void RawMatrixData::setTranslate(const float value, const int id) {
   translateXYZ[id] = value;
 }
 
-void RawMatrixData::setRotate(float value, int id) { rotateXYZ[id] = value; }
+void RawMatrixData::setRotate(const float value, const int id) {
+  rotateXYZ[id] = value;
+}
 void RawMatrixData::setScale(float value) { scale = value; }
-glm::vec3 RawMatrixData::getTranslate() { return translateXYZ; }
-glm::vec3 RawMatrixData::getRotate() { return rotateXYZ; }
+glm::vec3 RawMatrixData::getTranslate() const { return translateXYZ; }
+glm::vec3 RawMatrixData::getRotate() const { return rotateXYZ; }
 float RawMatrixData::getScale() const { return scale; }

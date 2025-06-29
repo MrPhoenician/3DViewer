@@ -17,7 +17,7 @@ MatrixData Controller::getData(RawMatrixData data) {
   return transData;
 }
 
-glm::mat4 Controller::signal(RawMatrixData data) {
+glm::mat4 Controller::signal(const RawMatrixData &data) {
   return Model::getMatrix(getData(data));
 }
 
@@ -25,6 +25,6 @@ ObjData Controller::signal(const std::string &path) {
   return Model::parsData(path);
 }
 
-glm::mat4 Controller::signal(float aspect, bool projection) {
+glm::mat4 Controller::signal(const float aspect, const bool projection) {
   return Model::getProjection(projection, aspect);
 }

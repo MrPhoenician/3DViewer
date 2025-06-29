@@ -2,7 +2,7 @@
 
 using namespace s21;
 
-Widget::Widget(QWidget *parent)
+Widget::Widget(const QWidget *parent)
     : openGL(OpenGLFasad()), gl(InitOpenGL::getInstance()), isFile(false) {
   Q_UNUSED(parent);
   QSurfaceFormat format;
@@ -32,10 +32,10 @@ void Widget::paintGL() {
   }
 }
 
-void Widget::resizeGL(int w, int h) { gl.glViewport(0, 0, w, h); }
+void Widget::resizeGL(const int w, const int h) { gl.glViewport(0, 0, w, h); }
 
 bool Widget::saveScreenshot(const QString &filename) {
-  QImage image = grabFramebuffer();
+  const QImage image = grabFramebuffer();
   image.scaled(640, 480, Qt::KeepAspectRatio);
   return image.save(filename);
 }
@@ -174,7 +174,7 @@ void MainWindow::createWidgets() {
   filePath = new QString();
 }
 
-void MainWindow::setNameAndValues(ObjData tempData) {
+void MainWindow::setNameAndValues(ObjData tempData) const {
   valueModelName->setText(QString::fromStdString(tempData.getName()));
   valueVertices->setText(QString::number(tempData.getVerticesCount()));
   valueEdges->setText(QString::number(tempData.getEdgesCount()));
@@ -183,8 +183,9 @@ void MainWindow::setNameAndValues(ObjData tempData) {
 void MainWindow::setupSliderSync(QSlider *slider, QLineEdit *lineEdit, int min,
                                  int max) {
   lineEdit->setText(QString::number(slider->value()));
-  connect(slider, &QSlider::valueChanged, this,
-          [lineEdit](int value) { lineEdit->setText(QString::number(value)); });
+  connect(slider, &QSlider::valueChanged, this, [lineEdit](const int value) {
+    lineEdit->setText(QString::number(value));
+  });
   connect(lineEdit, &QLineEdit::editingFinished, this,
           [slider, lineEdit, min, max]() {
             bool ok;
@@ -197,10 +198,10 @@ void MainWindow::setupSliderSync(QSlider *slider, QLineEdit *lineEdit, int min,
           });
 }
 
-QLineEdit *MainWindow::createLineEdit(int charWidth) {
-  auto lineEdit = new QLineEdit(this);
-  QFontMetrics fm(lineEdit->font());  // Получаем метрики шрифта
-  int width = fm.horizontalAdvance(
+QLineEdit *MainWindow::createLineEdit(const int charWidth) {
+  const auto lineEdit = new QLineEdit(this);
+  const QFontMetrics fm(lineEdit->font());  // Получаем метрики шрифта
+  const int width = fm.horizontalAdvance(
       QString("0").repeated(charWidth));  // Ширина для charWidth символов
   lineEdit->setFixedWidth(width + 10);  // Добавляем немного запаса
   lineEdit->setAlignment(Qt::AlignCenter);  // Центрируем текст
@@ -210,7 +211,7 @@ QLineEdit *MainWindow::createLineEdit(int charWidth) {
 QSlider *MainWindow::createSliderWithLineEdit(int const min, int const max,
                                               int const average,
                                               QLineEdit **lineEditPtr) {
-  auto slider = new QSlider(Qt::Horizontal, this);
+  const auto slider = new QSlider(Qt::Horizontal, this);
   slider->setRange(min, max);
   slider->setValue(average);
 
@@ -222,10 +223,10 @@ QSlider *MainWindow::createSliderWithLineEdit(int const min, int const max,
   return slider;
 }
 
-void MainWindow::setupSliderConnects(QSlider *slider, Signal signal,
+void MainWindow::setupSliderConnects(const QSlider *slider, Signal signal,
                                      char type) {
   connect(slider, &QSlider::valueChanged, this,
-          [this, signal, type](int value) {
+          [this, signal, type](const int value) {
             if (type == 'T' && signal == AXIS_Z && projection == 'P') {
               data.setTranslate(static_cast<float>(value) - 100, signal);
             } else if (type == 'T') {
@@ -249,12 +250,13 @@ void MainWindow::setupConnections() {
   });
   connect(buttonSave, &QPushButton::clicked, this,
           [this]() { setButtonSave(); });
-  connect(sliderScale, &QSlider::valueChanged, this, [this](int value) {
+  connect(sliderScale, &QSlider::valueChanged, this, [this](const int value) {
     data.setScale(static_cast<float>(value));
     openGL.setMatrix(Controller::signal(data));
   });
-  connect(toggleStipple, &QCheckBox::stateChanged, this,
-          [this](int state) { openGL.setStippleLine(state == Qt::Checked); });
+  connect(
+      toggleStipple, &QCheckBox::stateChanged, this,
+      [this](const int state) { openGL.setStippleLine(state == Qt::Checked); });
   connect(buttonEdgeColor, &QPushButton::clicked, this,
           [this]() { setColor(*buttonEdgeColor, "Select Line Color"); });
   connect(buttonBackColor, &QPushButton::clicked, this,
@@ -262,11 +264,13 @@ void MainWindow::setupConnections() {
   connect(buttonPointColor, &QPushButton::clicked, this,
           [this]() { setColor(*buttonPointColor, "Select Point Color"); });
   connect(sliderThikness, &QSlider::valueChanged, this,
-          [this](int value) { openGL.changeThikness(value); });
+          [this](const int value) { openGL.changeThikness(value); });
   connect(sliderVertices, &QSlider::valueChanged, this,
-          [this](int value) { openGL.changePointSize(value); });
+          [this](const int value) { openGL.changePointSize(value); });
   connect(toggleRoundV, &QCheckBox::stateChanged, this,
-          [this](int state) { openGL.setRoundVertices(state == Qt::Checked); });
+          [this](const int state) {
+            openGL.setRoundVertices(state == Qt::Checked);
+          });
   connect(buttonGif, &QPushButton::clicked, this, [this]() {
     !openGLWidget->gifCapture ? startGifCapture() : stopGifCapture();
   });
@@ -279,7 +283,7 @@ void MainWindow::setupConnections() {
 }
 
 void MainWindow::setColor(QPushButton &button, const QString &text) {
-  QColor color = QColorDialog::getColor(
+  const QColor color = QColorDialog::getColor(
       buttonEdgeColor->palette().button().color(), this, text);
   if (color.isValid()) {
     if (&button == buttonBackColor) {
@@ -294,10 +298,10 @@ void MainWindow::setColor(QPushButton &button, const QString &text) {
 }
 
 void MainWindow::updateButtonColor(QPushButton *button, const QColor &color) {
-  bool brightness =
+  const bool brightness =
       ((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) <
       128;  // Если яркость меньше 128, цвет считается темным
-  auto style =
+  const auto style =
       std::format("background-color: {}; color: {};",
                   color.name().toStdString(), brightness ? "white" : "black");
   button->setStyleSheet(QString::fromStdString(style));
@@ -315,7 +319,7 @@ void MainWindow::setButtonSave() {
     }
     printf("%s", FileName.toStdString().c_str());
     if (!openGLWidget->saveScreenshot(FileName)) {
-      QString Message =
+      const QString Message =
           QString("Не удалось сохранить файл:  ").append(FileName);
       QMessageBox::warning(this, tr("Ошибка"), Message.toStdString().c_str());
     }
@@ -329,7 +333,8 @@ void MainWindow::setProjection(const QString &text) {
     data.setTranslate(static_cast<float>(sliderTZ->value()), 2);
     projection = 'O';
   } else if (text == "Perspective") {
-    float aspect = static_cast<float>(width()) / static_cast<float>(height());
+    const float aspect =
+        static_cast<float>(width()) / static_cast<float>(height());
     projectionMat = Controller::signal(aspect, false);
     data.setTranslate(static_cast<float>(sliderTZ->value()) - 100, 2);
     projection = 'P';
@@ -377,7 +382,7 @@ void MainWindow::loadSettings() {
   toggleStipple->setChecked(settings->value("stipple", 0).toBool());
 }
 
-void MainWindow::saveSettings() {
+void MainWindow::saveSettings() const {
   settings->setValue("sliderTX", sliderTX->value());
   settings->setValue("sliderTY", sliderTY->value());
   settings->setValue("sliderTZ", sliderTZ->value());
@@ -430,11 +435,11 @@ void MainWindow::loadObj() {
 
 void MainWindow::makeGifLoop() {
   // Захватываем текущий кадр
-  QImage frame =
+  const QImage frame =
       openGLWidget->grabFramebuffer().scaled(640, 480, Qt::KeepAspectRatio);
 
   // Сохраняем кадр на диск
-  QString fileName =
+  const QString fileName =
       QString("./ForGifFrame_%1.bmp").arg(gifId, 4, 10, QChar('0'));
   frame.save(fileName);
   gifId++;
@@ -482,7 +487,7 @@ void MainWindow::startGifCapture() {
   }
 }
 
-void MainWindow::stopGifCapture() {
+void MainWindow::stopGifCapture() const {
   if (gifTimer->isActive()) {
     gifTimer->stop();
     openGLWidget->gifCapture = false;
@@ -490,12 +495,12 @@ void MainWindow::stopGifCapture() {
   }
 }
 
-QtView::QtView(int argc, char *argv) : argc(argc), argv(argv) {}
+QtView::QtView(const int argc, char *argv) : argc(argc), argv(argv) {}
 
 int QtView::startView() {
   QApplication app(argc, &argv);
   MainWindow window;
   window.show();
 
-  return app.exec();
+  return QApplication::exec();
 }

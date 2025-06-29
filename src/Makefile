@@ -35,7 +35,7 @@ install:
 .PHONY: install
 
 uninstall:
-	rm -f ~/3DViewer_v2_from_HRB/3DViewer
+	rm ~/3DViewer_v2_from_HRB/3DViewer
 	rmdir ~/3DViewer_v2_from_HRB/
 	rm -rf ~/.config/S21/3DViewer.conf
 .PHONY: uninstall
@@ -55,8 +55,8 @@ dist:
 
 tests: clean
 	cd desktop && qmake desktop.pro "CONFIG+=test" && make && make clean && rm Makefile .qmake.stash && mv 3DViewer_test ../
-	clean
 	./3DViewer_test
+	make clean
 .PHONY: tests
 
 dependences:

@@ -3,18 +3,14 @@
 using namespace s21;
 
 MatrixData::MatrixData() {
-  translateXYZ[0] = 0;
-  translateXYZ[1] = 0;
-  translateXYZ[2] = 0;
-  rotateXYZ[0] = 0;
-  rotateXYZ[1] = 0;
-  rotateXYZ[2] = 0;
+  translateXYZ = glm::vec3{0};
+  rotateXYZ = glm::vec3{0};
   scale = 1;
 }
 
-void MatrixData::setTranslate(glm::vec3 vector) { translateXYZ = vector; }
-void MatrixData::setRotate(glm::vec3 vector) { rotateXYZ = vector; }
-void MatrixData::setScale(float value) { scale = value; }
-glm::vec3 MatrixData::getTranslate() { return translateXYZ; }
-glm::vec3 MatrixData::getRotate() { return rotateXYZ; }
+void MatrixData::setTranslate(const glm::vec3 vector) { translateXYZ = vector; }
+void MatrixData::setRotate(const glm::vec3 vector) { rotateXYZ = vector; }
+void MatrixData::setScale(const float value) { scale = value; }
+glm::vec3 MatrixData::getTranslate() const { return translateXYZ; }
+glm::vec3 MatrixData::getRotate() const { return rotateXYZ; }
 float MatrixData::getScale() const { return scale; }

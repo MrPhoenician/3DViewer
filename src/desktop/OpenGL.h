@@ -1,7 +1,6 @@
 #ifndef CPP4_3DVIEWER_V2_0_1_OPENGL_H
 #define CPP4_3DVIEWER_V2_0_1_OPENGL_H
 
-#include <QOpenGLExtraFunctions>
 #include <QOpenGLWidget>
 
 #include "OpenGLBuffers.h"
@@ -15,17 +14,17 @@ class OpenGL : public Singleton<OpenGL> {
 
  public:
   void init();
-  void setMatrix(glm::mat4 matrix);
-  void uploadDataToBuffers(ObjData data);
+  void setMatrix(const glm::mat4 &matrixIn);
+  void uploadDataToBuffers(ObjData data) const;
   void draw();
   void setBackgroundColor(const QColor &color);
-  void setStippleLine(int x);
+  void setStippleLine(int value);
   void setLineColor(const QColor &color);
   void changeThikness(int value);
   void changePointSize(int value);
   void setPointColor(const QColor &color);
   void setRoundVertices(int state);
-  void setProjectionMat(glm::mat4 matrixIn);
+  void setProjectionMat(const glm::mat4 &projectionMatrix);
   QColor getBackgroundColor();
   QColor getPointColor();
   QColor getLineColor();

@@ -3,12 +3,12 @@
 using namespace s21;
 
 OpenGL::OpenGL()
-    : projectionMat(glm::mat4(1.0f)),
+    : projectionMat{1.0f},
       gl(InitOpenGL::getInstance()),
       backColor("white"),
       pointColor(0.0f, 0.0f, 0.0f, 1.0f),
       lineColor(0.0f, 0.0f, 0.0f, 1.0f),
-      matrix(glm::mat4(1.0f)),
+      matrix{1.0f},
       lineThikness(1.0f),
       verticesSize(0.0),
       cashLineColor(lineColor),
@@ -27,7 +27,7 @@ void OpenGL::init() {
   gl.glUniform1i(stippleLoc, 1);
 }
 
-void OpenGL::uploadDataToBuffers(ObjData data) {
+void OpenGL::uploadDataToBuffers(ObjData data) const {
   glBuffers->updateBuffers(std::move(data));
   gl.glBindVertexArray(glBuffers->getVAO());
 }
@@ -99,12 +99,12 @@ void OpenGL::getUniformsLoc() {
       gl.glGetUniformLocation(currentProgram->getShaderProgram(), "transform");
 }
 
-void OpenGL::setProjectionMat(glm::mat4 projectionMatrix) {
+void OpenGL::setProjectionMat(const glm::mat4 &projectionMatrix) {
   projectionMat = projectionMatrix;
   cashProjectionMat = true;
 }
 
-void OpenGL::setMatrix(glm::mat4 matrixIn) {
+void OpenGL::setMatrix(const glm::mat4 &matrixIn) {
   this->matrix = matrixIn;
   cashMatrix = true;
 }
@@ -116,22 +116,22 @@ void OpenGL::setPointColor(const QColor &color) {
       glm::vec4(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 }
 
-void OpenGL::setStippleLine(int x) { stippleMode = x; }
+void OpenGL::setStippleLine(const int value) { stippleMode = value; }
 
 void OpenGL::setLineColor(const QColor &color) {
   lineColor =
       glm::vec4(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 }
 
-void OpenGL::changeThikness(int value) {
+void OpenGL::changeThikness(const int value) {
   lineThikness = static_cast<float>(value);
 }
 
-void OpenGL::changePointSize(int value) {
+void OpenGL::changePointSize(const int value) {
   verticesSize = static_cast<float>(value);
 }
 
-void OpenGL::setRoundVertices(int state) { isCircle = state; }
+void OpenGL::setRoundVertices(const int state) { isCircle = state; }
 
 QColor OpenGL::getBackgroundColor() { return backColor; }
 

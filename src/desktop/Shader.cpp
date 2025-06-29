@@ -2,10 +2,10 @@
 
 using namespace s21;
 
-Shader::Shader(const char* filepath, GLenum shaderType)
+Shader::Shader(const char* filepath, const GLenum shaderType)
     : gl(InitOpenGL::getInstance()) {
   this->myShader = gl.glCreateShader(shaderType);
-  std::string shaderCode = loadShaderFromFile(filepath);
+  const std::string shaderCode = loadShaderFromFile(filepath);
   const char* shaderSource = shaderCode.c_str();
   gl.glShaderSource(this->myShader, 1, &shaderSource, nullptr);
   gl.glCompileShader(this->myShader);

@@ -12,8 +12,8 @@ class RawMatrixData {
   void setTranslate(float value, int id);
   void setRotate(float value, int id);
   void setScale(float scale);
-  glm::vec3 getTranslate();
-  glm::vec3 getRotate();
+  glm::vec3 getTranslate() const;
+  glm::vec3 getRotate() const;
   float getScale() const;
 
  private:

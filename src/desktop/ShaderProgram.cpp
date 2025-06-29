@@ -8,8 +8,9 @@ ShaderProgram::ShaderProgram() : gl(InitOpenGL::getInstance()) {
 void ShaderProgram::initProgram() {
   int success;
   char infoLog[512];
-  Shader vertexShader("shaders/vertex_shader.glsl", GL_VERTEX_SHADER);
-  Shader fragmentShader("shaders/fragment_shader.glsl", GL_FRAGMENT_SHADER);
+  const Shader vertexShader("shaders/vertex_shader.glsl", GL_VERTEX_SHADER);
+  const Shader fragmentShader("shaders/fragment_shader.glsl",
+                              GL_FRAGMENT_SHADER);
 
   this->myShaderProgram = gl.glCreateProgram();
   gl.glAttachShader(this->myShaderProgram, vertexShader.getShader());

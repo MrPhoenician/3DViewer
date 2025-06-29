@@ -1,6 +1,3 @@
-#include "../api/MatrixData.h"
-#include "../api/ModelApi.h"
-#include "../api/ObjData.h"
 #include "../api/RawMatrixData.h"
 #include "../model/Model.h"
 #include "test.h"
@@ -25,13 +22,6 @@ TEST(Model_, Rotate_X) {
   s21::MatrixData trans_data;
   trans_data.setRotate(data.getRotate());
   matrix_data = model.getMatrix(trans_data);
-
-  // for (int i = 0; i < 4; i++) {
-  //   for (int j = 0; j < 4; j++) {
-  //     printf(" %5.4f", matrix_data[i][j]);
-  //   }
-  //   printf("\n");
-  // }
 
   EXPECT_NEAR(matrix_data[0][0], 1, 0.1);
   EXPECT_NEAR(matrix_data[0][1], 0, 0.1);
