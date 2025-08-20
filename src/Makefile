@@ -40,7 +40,8 @@ uninstall:
 
 clean:
 	rm -rf out/*.* html_report dvi/ docdir/ bindir/ *.tar.gz test *.info *.gcda *.gcno desktop/*.o desktop/.qmake.stash \
-	desktop/Makefile desktop/moc_*.* ~/.config/S21/3DViewer.conf desktop/*.gcda desktop/*.gcno desktop/3DViewer_test
+	desktop/Makefile desktop/moc_*.* ~/.config/S21/3DViewer.conf desktop/*.gcda desktop/*.gcno desktop/3DViewer_test \
+	lcov/
 .PHONY: clean
 
 dvi:
