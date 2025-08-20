@@ -1,4 +1,5 @@
 CONFIG += c++20
+QMAKE_CXX = g++-14
 QT += widgets openglwidgets
 
 TARGET = 3DViewer
