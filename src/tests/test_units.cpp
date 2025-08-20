@@ -4,7 +4,7 @@
 
 TEST(Model_, LoadObj) {
   s21::Model model;
-  s21::ObjData p = model.parsData("../data-samples/cube.obj");
+  s21::ObjData p = model.parsData("../../data-samples/cube.obj");
 
   EXPECT_EQ(8, p.getVerticesCount());
   EXPECT_EQ(12, p.getEdgesCount());

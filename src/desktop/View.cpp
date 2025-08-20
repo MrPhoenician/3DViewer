@@ -35,8 +35,8 @@ void Widget::paintGL() {
 void Widget::resizeGL(const int w, const int h) { gl.glViewport(0, 0, w, h); }
 
 bool Widget::saveScreenshot(const QString &filename) {
-  const QImage image = grabFramebuffer();
-  image.scaled(640, 480, Qt::KeepAspectRatio);
+  QImage image = grabFramebuffer();
+  image = image.scaled(640, 480, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   return image.save(filename);
 }
 
